@@ -26,8 +26,8 @@ allprojects {
     version = "$modVersion+${rootProject.libs.versions.minecraft.get()}"
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     loom {
@@ -42,6 +42,7 @@ allprojects {
         }
         maven("https://api.modrinth.com/maven")
         maven("https://oss.sonatype.org/content/repositories/snapshots")
+        maven("https://repo.kord.dev/snapshots")
     }
 
     // Declare dependencies
@@ -157,7 +158,7 @@ tasks {
 
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "21"
+            jvmTarget = "17"
         }
     }
 

@@ -15,7 +15,7 @@ public abstract class ServerPlayNetworkHandlerMixin {
     public ServerPlayerEntity player;
 
     @Inject(
-        method = "cleanUp",
+        method = "onDisconnected",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/server/PlayerManager;broadcast(Lnet/minecraft/text/Text;Z)V"

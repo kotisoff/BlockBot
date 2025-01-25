@@ -43,12 +43,16 @@ import kotlinx.coroutines.runBlocking
 import me.drex.vanish.api.VanishEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.kyori.adventure.text.KeybindComponent
+import net.kyori.adventure.text.NBTComponent
 import net.kyori.adventure.text.TranslatableComponent
 import net.minecraft.advancement.Advancement
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.LoreComponent
+import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.NbtIo
+import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtOps
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.*
@@ -214,8 +218,8 @@ class BlockBotApiExtension : Extension(), Bot {
                     }
 
                     val stack = ItemStack(Items.STICK)
-                    stack.set(DataComponentTypes.LORE, LoreComponent(list))
-                    stack.set(DataComponentTypes.CUSTOM_NAME, Text.empty())
+                    stack.setCustomName(Text.empty())
+                    stack.item.appendTooltip(stack, null, list, TooltipContext.ADVANCED)
                     hoverEvent = HoverEvent(HoverEvent.Action.SHOW_ITEM, HoverEvent.ItemStackContent(stack))
                 }
 
@@ -370,7 +374,7 @@ class BlockBotApiExtension : Extension(), Bot {
                     icon = config.getWebhookChatRelayAvatar(player.gameProfile)
                 }
                 footer {
-                    text = advancement.display.get().description.string
+                    text = advancement.display?.description?.string ?: "Not Provided"
                 }
                 color = Colors.blue
             }

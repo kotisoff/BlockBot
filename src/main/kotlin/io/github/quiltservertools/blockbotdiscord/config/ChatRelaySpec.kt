@@ -98,8 +98,8 @@ fun Config.formatPlayerDeathMessage(player: ServerPlayerEntity, message: Text): 
 fun Config.formatPlayerAdvancementMessage(player: ServerPlayerEntity, advancement: Advancement): String =
     formatDiscordRelayMessage(
         player,
-        config[ChatRelaySpec.DiscordMessageFormatSpec.playerAdvancement],
-        mapOf("advancement" to advancement.display.get().title)
+        config[ChatRelaySpec.DiscordMessageFormatSpec.playerAdvancement].toString(),
+        mapOf("advancement" to (advancement.display?.title ?: Text.of("Not provided"))),
     ).string
 
 fun Config.formatServerStartMessage(server: MinecraftServer): String =
@@ -109,7 +109,7 @@ fun Config.formatServerStopMessage(server: MinecraftServer): String =
     formatDiscordRelayMessage(server, config[ChatRelaySpec.DiscordMessageFormatSpec.serverStop])
 
 private fun formatDiscordRelayMessage(
-    sender: MessageSender, message: String, format: String, placeholders: Map<String, Text> = mapOf(
+    sender: MessageSender, message: String, format: String, placeholders: Map<String, Text?> = mapOf(
         "sender" to sender.name,
         "sender_display" to sender.displayName,
         "message" to message.literal()
@@ -130,7 +130,7 @@ private fun formatDiscordRelayMessage(
 fun formatDiscordRelayMessage(
     player: ServerPlayerEntity,
     format: String,
-    placeholders: Map<String, Text> = mapOf()
+    placeholders: Map<String, Text?> = mapOf()
 ): Text =
     Placeholders.parseText(
         Placeholders.parseText(
